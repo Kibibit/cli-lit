@@ -53,6 +53,7 @@ function createCLICommandsFromClass(program) {
             functionName: funcName,
             params: params,
             fullParams: fullParams,
+            optionalParams: {{ class }}[funcName].optionalParams,
             description: {{ class }}[funcName].description || '',
             group: {{ class }}[funcName].group
         };
@@ -84,7 +85,10 @@ function createCLI(groupedFunctions, program) {
         if (!_.isNil(item.description)) {
             // change function parameters from array to a string expected
             // by gitlike-cli: '<username> <password>'
-            let visibleParamsString = item.params.map((param) => `<${ param }>`).join(' ');
+            let visibleParamsString = item.params
+            .map((param) => {
+                return _.includes(item.optionalParams, param) ? `<${ param }>` : `[${ param }]`;
+            }).join(' ');
             
             program.command(`${ item.name } ${ visibleParamsString }`)
                 .description(colors.yellow(item.description))
@@ -93,8 +97,8 @@ function createCLI(groupedFunctions, program) {
                     let Arr = [];
 
                     return Promise.resolve()
-                        .then(() => ensureConfiguration())
-                        .then((ensuredConfig) => cfg.token = ensuredConfig.token)
+                        // .then(() => ensureConfiguration())
+                        // .then((ensuredConfig) => cfg.token = ensuredConfig.token)
                         .then(() => item.params.map((param) => args[param]))
                         // .then((inputs) => console.log(`command line function called! ` + colors.yellow(`{{ class }}[${item.functionName}].apply(this, ${[cfg.token].concat(inputs).join(', ')})`)))
                         .then((inputs) => {{ class }}[item.functionName].apply(this, inputs))

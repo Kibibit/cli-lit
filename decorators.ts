@@ -1,32 +1,20 @@
 export function description(...args : string[]) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        if(descriptor === undefined) {
-            descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-        }
-
-        let originalMethod = descriptor.value;
-
-        originalMethod.description = args.join('\n');
-
-        return descriptor;
-    };
+    return addValueToFunction('description', args.join('\n'));
 }
 
 export function cligroup(groupName) {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-        if(descriptor === undefined) {
-            descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-        }
-
-        let originalMethod = descriptor.value;
-
-        originalMethod.group = groupName;
-
-        return descriptor;
-    };
+    return addValueToFunction('group', groupName);
 }
 
 export function cliRename(newFunctionName) {
+    return addValueToFunction('cliName', newFunctionName);
+}
+
+export function cliOptionalParams(optionalArray: string[]) {
+    return addValueToFunction('optionalParams', optionalArray);
+}
+
+function addValueToFunction(key: string, value: any) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         if(descriptor === undefined) {
             descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
@@ -34,7 +22,7 @@ export function cliRename(newFunctionName) {
 
         let originalMethod = descriptor.value;
 
-        originalMethod.cliName = newFunctionName;
+        originalMethod[key] = value;
 
         return descriptor;
     };
