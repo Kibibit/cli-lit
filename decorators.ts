@@ -14,6 +14,10 @@ export function cliOptionalParams(optionalArray: string[]) {
     return addValueToFunction('optionalParams', optionalArray);
 }
 
+export function cliBeforeEach() {
+    return addValueToFunction('beforeEach', true);
+}
+
 function addValueToFunction(key: string, value: any) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         if(descriptor === undefined) {
@@ -26,4 +30,8 @@ function addValueToFunction(key: string, value: any) {
 
         return descriptor;
     };
+}
+
+export function deco() {
+    console.log('hello');
 }

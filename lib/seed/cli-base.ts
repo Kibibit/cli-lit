@@ -39,8 +39,15 @@ function getParamNames(func) {
 function createCLICommandsFromClass(program) {
     // get all the atomic requests members
     let allAll = {};
+    let before = [];
+
     _.forEach(Object.getOwnPropertyNames({{ class }}), (funcName) => {
         if (['length', 'prototype', 'name', 'createPost'].indexOf(funcName) >= 0) {
+            return;
+        }
+
+        if ({{ class }}[funcName].beforeEach) {
+            before.push({{ class }}[funcName]);
             return;
         }
 
@@ -61,7 +68,7 @@ function createCLICommandsFromClass(program) {
 
     let groupedFunctions = groupByPath(allAll);
 
-    createCLI(groupedFunctions, program);
+    createCLI(groupedFunctions, before, program);
 }
 
 function groupByPath(functionArray) {
@@ -79,7 +86,7 @@ function groupByPath(functionArray) {
     return groupedFunctions;
 }
 
-function createCLI(groupedFunctions, program) {
+function createCLI(groupedFunctions, before, program) {
 
     _.forEach(groupedFunctions, (item, key) => {
         if (!_.isNil(item.description)) {
@@ -87,7 +94,7 @@ function createCLI(groupedFunctions, program) {
             // by gitlike-cli: '<username> <password>'
             let visibleParamsString = item.params
             .map((param) => {
-                return _.includes(item.optionalParams, param) ? `<${ param }>` : `[${ param }]`;
+                return _.includes(item.optionalParams, param) ? `[${ param }]` : `<${ param }>`;
             }).join(' ');
             
             program.command(`${ item.name } ${ visibleParamsString }`)
@@ -97,9 +104,12 @@ function createCLI(groupedFunctions, program) {
                     let Arr = [];
 
                     return Promise.resolve()
-                        // .then(() => ensureConfiguration())
+                        .then(() => Promise.all(_.map(before, (func) => func())))
+                        // .then(() => before.reduce((p, fn) => p.then(fn), Promise.resolve()))
+                        // .then((fromBefore) => console.log(fromBefore))
+                        .then((fromBefore) => _.assign.apply(_, fromBefore))
                         // .then((ensuredConfig) => cfg.token = ensuredConfig.token)
-                        .then(() => item.params.map((param) => args[param]))
+                        .then((fromBefore) => item.params.map((param) => fromBefore[param] || args[param]))
                         // .then((inputs) => console.log(`command line function called! ` + colors.yellow(`{{ class }}[${item.functionName}].apply(this, ${[cfg.token].concat(inputs).join(', ')})`)))
                         .then((inputs) => {{ class }}[item.functionName].apply(this, inputs))
                 });
@@ -108,7 +118,7 @@ function createCLI(groupedFunctions, program) {
                 .command(key)
                 .description(colors.blue(`${key} Group of commands`));
 
-            createCLI(item, groupCommand);
+            createCLI(item, before, groupCommand);
         }
 
     });
