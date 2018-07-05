@@ -31,5 +31,9 @@
   },
   "bin": {
     "cli-gen": "bin/cli-gen.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Kibibit/achievibit.git"
   }
 }
