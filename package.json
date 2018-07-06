@@ -1,5 +1,5 @@
 {
-  "name": "cli-lit",
+  "name": "@kibibit/cli-lit",
   "version": "1.0.0",
   "description": "generate a lit CLI tool from a typescript class",
   "main": "./decorators.js",
@@ -34,9 +34,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kibibit/cli-lit.git"
+    "url": "git+https://github.com/Kibibit/cli-lit.git"
   },
   "devDependencies": {
     "eslint": "^5.0.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Kibibit/cli-lit/issues"
+  },
+  "homepage": "https://github.com/Kibibit/cli-lit#readme"
 }
