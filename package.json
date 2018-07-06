@@ -1,7 +1,7 @@
 {
-  "name": "cli-gen",
+  "name": "cli-lit",
   "version": "1.0.0",
-  "description": "generate cli tool from a class with annotations",
+  "description": "generate a lit CLI tool from a typescript class",
   "main": "./decorators.js",
   "scripts": {
     "install": "tsc --target ES5 --experimentalDecorators ./decorators.ts",
@@ -30,10 +30,13 @@
     "typescript-compiler": "^1.4.1-2"
   },
   "bin": {
-    "cli-gen": "bin/cli-gen.js"
+    "cli-gen": "bin/cli-lit.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/Kibibit/achievibit.git"
+  },
+  "devDependencies": {
+    "eslint": "^5.0.1"
   }
 }
