@@ -30,11 +30,11 @@
     "typescript-compiler": "^1.4.1-2"
   },
   "bin": {
-    "cli-gen": "bin/cli-lit.js"
+    "cli-lit": "bin/cli-lit.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Kibibit/achievibit.git"
+    "url": "https://github.com/Kibibit/cli-lit.git"
   },
   "devDependencies": {
     "eslint": "^5.0.1"
