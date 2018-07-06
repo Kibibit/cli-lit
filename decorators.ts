@@ -31,7 +31,3 @@ function addValueToFunction(key: string, value: any) {
         return descriptor;
     };
 }
-
-export function deco() {
-    console.log('hello');
-}
