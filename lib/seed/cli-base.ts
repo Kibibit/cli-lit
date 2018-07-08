@@ -40,6 +40,7 @@ function createCLICommandsFromClass(program) {
     // get all the atomic requests members
     let allAll = {};
     let before = [];
+    let after = [];
 
     _.forEach(Object.getOwnPropertyNames({{ class }}), (funcName) => {
         if (['length', 'prototype', 'name', 'createPost'].indexOf(funcName) >= 0) {
@@ -51,9 +52,16 @@ function createCLICommandsFromClass(program) {
             return;
         }
 
+        if ({{ class }}[funcName].afterEach) {
+            after.push({{ class }}[funcName]);
+            return;
+        }
+
         let fullParams = getParamNames({{ class }}[funcName]);
-        let params = fullParams
-            .filter((param) => ['token', 'isSilent'].indexOf(param) < 0);
+        let params = fullParams;
+        if ({{ class }}[funcName].hiddenParams) {
+            params = fullParams.filter((param) => !_.includes({{ class }}[funcName].hiddenParams, param));
+        }
 
         allAll[funcName] = {
             name: {{ class }}[funcName].cliName || funcName,
@@ -68,7 +76,7 @@ function createCLICommandsFromClass(program) {
 
     let groupedFunctions = groupByPath(allAll);
 
-    createCLI(groupedFunctions, before, program);
+    createCLI(groupedFunctions, before, after, program);
 }
 
 function groupByPath(functionArray) {
@@ -86,7 +94,7 @@ function groupByPath(functionArray) {
     return groupedFunctions;
 }
 
-function createCLI(groupedFunctions, before, program) {
+function createCLI(groupedFunctions, before, after, program) {
 
     _.forEach(groupedFunctions, (item, key) => {
         if (!_.isNil(item.description)) {
@@ -102,23 +110,27 @@ function createCLI(groupedFunctions, before, program) {
                 .action(function (args, options) {
                     let token;
                     let Arr = [];
+                    let inputObject = {};
 
                     return Promise.resolve()
-                        .then(() => Promise.all(_.map(before, (func) => func())))
+                        .then(() => Promise.all(_.map(before, (func) => func(item.functionName))))
                         // .then(() => before.reduce((p, fn) => p.then(fn), Promise.resolve()))
                         // .then((fromBefore) => console.log(fromBefore))
                         .then((fromBefore) => _.assign.apply(_, fromBefore))
-                        // .then((ensuredConfig) => cfg.token = ensuredConfig.token)
-                        .then((fromBefore) => item.params.map((param) => fromBefore[param] || args[param]))
-                        // .then((inputs) => console.log(`command line function called! ` + colors.yellow(`{{ class }}[${item.functionName}].apply(this, ${[cfg.token].concat(inputs).join(', ')})`)))
+                        .then((fromBefore) => item.fullParams.map((param, index) => {
+                            inputObject[param] = args[param] || fromBefore[param];
+
+                            return inputObject[param];
+                        }))
                         .then((inputs) => {{ class }}[item.functionName].apply(this, inputs))
+                        .then((output) => Promise.all(_.map(after, (func) => func(item.functionName, output, inputObject))));
                 });
         } else {
             let groupCommand = program
                 .command(key)
                 .description(colors.blue(`${key} Group of commands`));
 
-            createCLI(item, before, groupCommand);
+            createCLI(item, before, after, groupCommand);
         }
 
     });

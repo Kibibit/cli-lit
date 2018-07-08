@@ -1,4 +1,4 @@
-export function description(...args : string[]) {
+export function clidescription(...args : string[]) {
     return addValueToFunction('description', args.join('\n'));
 }
 
@@ -14,8 +14,16 @@ export function cliOptionalParams(optionalArray: string[]) {
     return addValueToFunction('optionalParams', optionalArray);
 }
 
+export function cliHiddenParams(hiddenArray: string[]) {
+    return addValueToFunction('hiddenParams', hiddenArray);
+}
+
 export function cliBeforeEach() {
     return addValueToFunction('beforeEach', true);
+}
+
+export function cliAfterEach() {
+    return addValueToFunction('afterEach', true);
 }
 
 function addValueToFunction(key: string, value: any) {
