@@ -44,7 +44,8 @@ function createCLICommandsFromClass(program) {
 
     _.forEach(Object.getOwnPropertyNames({{ class }}), (funcName) => {
         if (['length', 'prototype', 'name'].indexOf(funcName) >= 0 ||
-        {{ class }}[funcName].ignore) {
+        {{ class }}[funcName].ignore ||
+        !_.isFunction({{ class }}[funcName])) {
             return;
         }
 
@@ -114,7 +115,7 @@ function createCLI(groupedFunctions, before, after, program) {
                     let inputObject = {};
 
                     return Promise.resolve()
-                        .then(() => Promise.all(_.map(before, (func) => func(item.functionName))))
+                        .then(() => Promise.all(_.map(before, (func: Function) => func(item.functionName))))
                         // .then(() => before.reduce((p, fn) => p.then(fn), Promise.resolve()))
                         // .then((fromBefore) => console.log(fromBefore))
                         .then((fromBefore) => _.assign.apply(_, fromBefore))
@@ -124,7 +125,7 @@ function createCLI(groupedFunctions, before, after, program) {
                             return inputObject[param];
                         }))
                         .then((inputs) => {{ class }}[item.functionName].apply(this, inputs))
-                        .then((output) => Promise.all(_.map(after, (func) => func(item.functionName, output, inputObject))));
+                        .then((output) => Promise.all(_.map(after, (func: Function) => func(item.functionName, output, inputObject))));
                 });
         } else {
             let groupCommand = program
