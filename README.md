@@ -85,7 +85,7 @@ static afterActualAction(funcName, output, inputsObject) {
 import * as request from 'request-promise';
 import * as keytar from 'keytar';
 import * as homeConfig from 'home-config';
-import { description, cligroup, cliRename, cliOptionalParams, cliBeforeEach } from 'cli-lit';
+import { description, cligroup, cliRename, cliOptionalParams, cliBeforeEach } from '@kibibit/cli-lit';
 
 const cfg = homeConfig.load('.myConfigFile');
 
