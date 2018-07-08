@@ -26,6 +26,10 @@ export function cliAfterEach() {
     return addValueToFunction('afterEach', true);
 }
 
+export function cliIgnore() {
+    return addValueToFunction('ignore', true);
+}
+
 function addValueToFunction(key: string, value: any) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         if(descriptor === undefined) {

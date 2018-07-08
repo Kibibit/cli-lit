@@ -43,7 +43,8 @@ function createCLICommandsFromClass(program) {
     let after = [];
 
     _.forEach(Object.getOwnPropertyNames({{ class }}), (funcName) => {
-        if (['length', 'prototype', 'name', 'createPost'].indexOf(funcName) >= 0) {
+        if (['length', 'prototype', 'name'].indexOf(funcName) >= 0 ||
+        {{ class }}[funcName].ignore) {
             return;
         }
 

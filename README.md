@@ -36,9 +36,33 @@ you can group functions into sub-categories by using `@cligroup`. To create a ne
 
 Some variables might be optional in their CLI form. Either because they are optional in their normal form, but sometimes because you want to create a more complex logic like fetching tokens in a `beforeEach` function. See example below.
 
+#### @cliIgnore
+
+Ignore this function when translating the class into a CLI.
+
 #### @cliBeforeEach 
 
-You can create function that run before the action selected happens. For example, you might want to fetch a token from the system's keychain in order to do an http request, or ask the user to input a username and password in an [`inquirer.js`](https://github.com/SBoudrias/Inquirer.js/) manner (some examples below). The function will be called before the action called in a promise chain. So the `@cliBeforeEach` decorator can be used to return either an object of values or a Promise that solves into an object of values. That object will be then passed as arguments to the called function, by matching the keys of the object with the function's parameter names. See example below.
+You can create function that run before the action selected happens. For example, you might want to fetch a token from the system's keychain in order to do an http request, or ask the user to input a username and password in an [`inquirer.js`](https://github.com/SBoudrias/Inquirer.js/) manner (some examples below). The function will be called before the action called in a promise chain. So the `@cliBeforeEach` decorator can be used to return either an object of values or a Promise that solves into an object of values. That object will be then passed as arguments to the called function, by matching the keys of the object with the function's parameter names.
+
+. this function will get the following parameters as input:
+```typescript
+@cliBeforeEach()
+static beforeActualAction(funcName) {
+// ...
+}
+```
+
+See example below.
+
+#### @cliAfterEach
+
+Same as `@cliBeforeEach` but runs after every function. this function will get the following parameters as input:
+```typescript
+@cliAfterEach()
+static afterActualAction(funcName, output, inputsObject) {
+// ...
+}
+```
 
 ## Examples
 
