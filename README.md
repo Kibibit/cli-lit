@@ -4,14 +4,29 @@ generate a lit CLI tool from a typescript class
 
 ## Installation
 
-Install Globally:
+### Install Globally
 ```
 npm i -g @kibibit/cli-lit 
 ```
-
-Install Locally:
+and run it using
 ```
-npm i --save @kibibit/cli-lit 
+cli-lit --name <cli_name> --file <typescript_file> --class <exported_class>
+```
+
+### Install Locally
+```
+npm i --save @kibibit/cli-lit
+```
+Then, you can add it to your `package.json` as a script:
+```javascript
+"scripts": {
+  // ...
+  "generate-cli": "cli-lit --name <cli_name> --file <typescript_file> --class <exported_class>"
+}
+```
+and run it using
+```
+npm run generate-cli
 ```
 
 ### Available Decorators
