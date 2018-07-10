@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 import * as program from 'gitlike-cli';
-// import * as keytar from 'keytar';
-// import * as homeConfig from 'home-config';
-// import * as prettyjson from 'prettyjson';
 import * as _ from 'lodash';
 import * as colors from 'colors';
 import { {{ class }} } from "{{ file }}";
@@ -11,7 +8,6 @@ import { {{ class }} } from "{{ file }}";
 declare var process: any;
 declare var Promise: any;
 
-// const cfg = homeConfig.load('.kibgenrc');
 const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 const ARGUMENT_NAMES = /([^\s,]+)/g;
 
@@ -130,7 +126,7 @@ function createCLI(groupedFunctions, before, after, program) {
         } else {
             let groupCommand = program
                 .command(key)
-                .description(colors.blue(`${key} Group of commands`));
+                .description(colors.blue(`group of ${colors.yellow(key)} commands`));
 
             createCLI(item, before, after, groupCommand);
         }
