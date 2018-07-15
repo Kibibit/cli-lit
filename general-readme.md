@@ -29,6 +29,14 @@ and run it using
 npm run generate-cli
 ```
 
+## NPM Development Commands
+
+When running `npm install @kibibit/cli-lit`, it will automatically compile
+the typescript decorators.
+
+- `npm run compile` - compile typescript decorators file to javascript
+- `npm run build:doc` - will compile a new `README.md` file based on `general-readme.md` and the decorators' jsdoc comments.
+
 ## Examples
 
 ```typescript

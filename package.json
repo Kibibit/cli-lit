@@ -5,7 +5,8 @@
   "main": "./decorators.js",
   "types": "./decorators.d.ts",
   "scripts": {
-    "install": "tsc --target ES5 --experimentalDecorators -d ./decorators.ts",
+    "compile": "tsc --target ES5 --experimentalDecorators -d ./decorators.ts",
+    "install": "npm run compile",
     "build:doc": "jsdoc2md --files './decorators.ts' --configure jsdoc2md.json > method-docs.md && npm run build:merge",
     "build:merge": "concat -o README.md ./general-readme.md ./method-docs.md",
     "test": "echo \"Error: no test specified\" && exit 1"
