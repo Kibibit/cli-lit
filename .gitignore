@@ -1,1 +1,4 @@
 node_modules/
+.vscode/
+decorators.d.ts
+decorators.js
