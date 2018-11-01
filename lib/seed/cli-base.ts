@@ -12,7 +12,7 @@ const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 const ARGUMENT_NAMES = /([^\s,]+)/g;
 
 program
-    .version('1.0.0')
+    .version('1.0.0', '-v, --version')
     .description('create data for development testing');
 
 createCLICommandsFromClass(program);
