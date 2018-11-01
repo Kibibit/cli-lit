@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as program from 'gitlike-cli';
+import * as program from 'commander';
 import * as _ from 'lodash';
 import * as colors from 'colors';
 import { {{ class }} } from "{{ file }}";
