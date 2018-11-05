@@ -40,7 +40,7 @@ function createCLICommandsFromClass(program) {
 
     _.forEach(Object.getOwnPropertyNames({{ class }}), (funcName) => {
         if (['length', 'prototype', 'name'].indexOf(funcName) >= 0 ||
-        {{ class }}[funcName].ignore ||
+        _.get({{ class }}, `${ funcName }.ignore`) ||
         !_.isFunction({{ class }}[funcName])) {
             return;
         }
