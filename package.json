@@ -9,7 +9,9 @@
     "install": "npm run compile",
     "build:doc": "jsdoc2md --files './decorators.ts' --configure jsdoc2md.json > method-docs.md && npm run build:merge",
     "build:merge": "concat -o README.md ./general-readme.md ./method-docs.md",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "neilkalman@gmail.com",
   "license": "MIT",
@@ -27,7 +29,8 @@
     "mkdirp": "^0.5.1",
     "pkginfo": "^0.4.1",
     "prettyjson": "^1.2.1",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "snyk": "^1.117.1"
   },
   "bin": {
     "cli-lit": "bin/cli-lit.js"
@@ -66,5 +69,6 @@
     "generator",
     "typescript",
     "automation"
-  ]
+  ],
+  "snyk": true
 }
