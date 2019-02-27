@@ -5,7 +5,7 @@
   </h2>
 </p>
 <p align="center">
-  <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
+  <!-- <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a> -->
   <a href="https://greenkeeper.io/"><img src="https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg"></a>
   <!-- <a href="https://travis-ci.org/Kibibit/cli-lit"><img src="https://travis-ci.org/Kibibit/cli-lit.svg?branch=master"></a>
   <a href="https://coveralls.io/github/Kibibit/cli-lit?branch=master"><img src="https://coveralls.io/repos/github/Kibibit/cli-lit/badge.svg?branch=master"></a> -->
