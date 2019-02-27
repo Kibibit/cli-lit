@@ -1,6 +1,21 @@
-## CLI-lit
-
-generate a lit CLI tool from a typescript class
+<p align="center">
+  <a href="https://www.npmjs.com/package/@kibibit/cli-lit" target="blank"><img src="http://kibibit.io/kibibit-assets/lit.svg" width="250" ></a>
+  <h2 align="center">
+    @kibibit/cli-lit
+  </h2>
+</p>
+<p align="center">
+  <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
+  <a href="https://greenkeeper.io/"><img src="https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg"></a>
+  <!-- <a href="https://travis-ci.org/Kibibit/cli-lit"><img src="https://travis-ci.org/Kibibit/cli-lit.svg?branch=master"></a>
+  <a href="https://coveralls.io/github/Kibibit/cli-lit?branch=master"><img src="https://coveralls.io/repos/github/Kibibit/cli-lit/badge.svg?branch=master"></a> -->
+  <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-1-orange.svg"></a>
+  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square"></a>
+</p>
+<p align="center">
+  generate a 🔥lit🔥 CLI tool from a typescript class
+</p>
+<hr>
 
 ## Installation
 
