@@ -1,6 +1,24 @@
-## CLI-lit
-
-generate a lit CLI tool from a typescript class
+<p align="center">
+  <a href="https://www.npmjs.com/package/@kibibit/cli-lit" target="blank"><img src="http://kibibit.io/kibibit-assets/lit.svg" width="250" ></a>
+  <h2 align="center">
+    @kibibit/cli-lit
+  </h2>
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/@kibibit/cli-lit"><img src="https://img.shields.io/npm/v/@kibibit/cli-lit.svg?logo=npm&color=CB3837&style=for-the-badge"></a>
+</p>
+<p align="center">
+  <!-- <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a> -->
+  <a href="https://greenkeeper.io/"><img src="https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg"></a>
+  <!-- <a href="https://travis-ci.org/Kibibit/cli-lit"><img src="https://travis-ci.org/Kibibit/cli-lit.svg?branch=master"></a>
+  <a href="https://coveralls.io/github/Kibibit/cli-lit?branch=master"><img src="https://coveralls.io/repos/github/Kibibit/cli-lit/badge.svg?branch=master"></a> -->
+  <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-1-orange.svg"></a>
+  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square"></a>
+</p>
+<p align="center">
+  generate a 🔥lit🔥 CLI tool from a typescript class
+</p>
+<hr>
 
 ## Installation
 
@@ -28,6 +46,14 @@ and run it using
 ```
 npm run generate-cli
 ```
+
+## NPM Development Commands
+
+When running `npm install @kibibit/cli-lit`, it will automatically compile
+the typescript decorators.
+
+- `npm run compile` - compile typescript decorators file to javascript
+- `npm run build:doc` - will compile a new `README.md` file based on `general-readme.md` and the decorators' jsdoc comments.
 
 ## Examples
 
@@ -128,6 +154,7 @@ export class UserActions {
 ```
 
 ## Available Decorators
+
 ## Functions
 
 <dl>
@@ -328,3 +355,21 @@ static logResult(functionName, returnValue, givenParams) {
 .@cliIgnore()
 static dontTraslate(arg) { ... }
 ```
+
+## Contributing
+
+If you have suggestions for how @kibibit/cli-lit could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
+
+For more, check out the [Contributing Guide](CONTRIBUTING.md).
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://github.com/Thatkookooguy"><img src="https://avatars0.githubusercontent.com/u/10427304?s=460&v=4" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="#infra-Thatkookooguy" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#design-Thatkookooguy" title="Design">🎨</a> <a href="https://github.com/kibibit/cli-lit/commits?author=Thatkookooguy" title="Code">💻</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## License
+
+[MIT](LICENSE) © 2019 Neil Kalman <neilkalman@gmail.com>
