@@ -1,6 +1,6 @@
 {
   "name": "@kibibit/cli-lit",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "generate a lit CLI tool from a typescript class",
   "main": "./decorators.js",
   "types": "./decorators.d.ts",
