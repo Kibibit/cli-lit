@@ -1,0 +1,24 @@
+{
+  "projectName": "cli-lit",
+  "projectOwner": "kibibit",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "contributors.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "Thatkookooguy",
+      "name": "Neil Kalman",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/10427304?s=460&v=4",
+      "profile": "https://github.com/Thatkookooguy",
+      "contributions": [
+        "infra",
+        "design",
+        "code"
+      ]
+    }
+  ]
+}
