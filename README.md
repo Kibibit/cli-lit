@@ -16,7 +16,7 @@
   <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square"></a>
 </p>
 <p align="center">
-  generate a 🔥lit🔥 CLI tool from a typescript class
+  generate a :fire:lit:fire: CLI tool from a typescript class
 </p>
 <hr>
 
