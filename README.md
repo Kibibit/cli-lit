@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.npmjs.com/package/@kibibit/cli-lit" target="blank"><img src="http://kibibit.io/kibibit-assets/cli-lit-logo.png" width="150" ></a>
+  <a href="https://www.npmjs.com/package/@kibibit/cli-lit" target="blank"><img src="http://kibibit.io/kibibit-assets/cli-lit-logo-transparent.png" width="150" ></a>
   <h2 align="center">
     @kibibit/cli-lit
   </h2>
