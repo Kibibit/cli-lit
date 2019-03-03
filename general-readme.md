@@ -13,7 +13,7 @@
   <!-- <a href="https://travis-ci.org/Kibibit/cli-lit"><img src="https://travis-ci.org/Kibibit/cli-lit.svg?branch=master"></a>
   <a href="https://coveralls.io/github/Kibibit/cli-lit?branch=master"><img src="https://coveralls.io/repos/github/Kibibit/cli-lit/badge.svg?branch=master"></a> -->
   <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-1-orange.svg"></a>
-  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square"></a>
+  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh/kibibit&style=flat-square"></a>
 </p>
 <p align="center">
   generate a :fire:lit:fire: CLI tool from a typescript class
