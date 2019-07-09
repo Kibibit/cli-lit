@@ -1,0 +1,19 @@
+{
+  "name": "options-flags",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate-cli": "cli-lit --name countula --file index.ts --class Cli",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@kibibit/cli-lit": "git+https://github.com/Kibibit/cli-lit.git",
+    "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0"
+  }
+}

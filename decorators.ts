@@ -142,18 +142,18 @@ export function cliIgnore() {
 }
 
 function addValueToFunction(key: string, value: any) {
-  return function(
+  return function (
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor
   ) {
     if (descriptor === undefined) {
-      descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+      descriptor = Object.getOwnPropertyDescriptor(target, propertyKey) as PropertyDescriptor;
     }
 
-    let originalMethod = descriptor.value;
+    const originalMethod = descriptor.value;
 
-    originalMethod[key] = value;
+    originalMethod[ key ] = value;
 
     return descriptor;
   };
