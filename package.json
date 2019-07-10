@@ -10,9 +10,10 @@
     "install": "npm run compile",
     "build:doc": "jsdoc2md --files './decorators.ts' --configure jsdoc2md.json > method-docs.md && npm run contributors:generate && npm run build:merge",
     "build:merge": "concat -o README.md ./general-readme.md ./method-docs.md ./contributors.md ./readme_license.md",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "test:watch": "jest --watchAll --coverage",
+    "test": "jest --coverage"
   },
   "author": "neilkalman@gmail.com",
   "license": "MIT",
@@ -25,7 +26,7 @@
     "@types/lodash": "^4.14.135",
     "@types/mkdirp": "^0.5.2",
     "@types/prettyjson": "0.0.29",
-    "@types/typescript": "^2.0.0",
+    "@types/string-replace-webpack-plugin": "^0.1.1",
     "@types/webpack": "^4.4.34",
     "cli-step": "^1.0.2",
     "colors": "^1.3.0",
@@ -41,8 +42,9 @@
     "mkdirp": "^0.5.1",
     "pkginfo": "^0.4.1",
     "prettyjson": "^1.2.1",
+    "string-replace-loader": "^2.2.0",
+    "string-replace-webpack-plugin": "^0.1.3",
     "ts-loader": "^6.0.4",
-    "typescript": "^3.5.2",
     "webpack": "^4.35.2"
   },
   "bin": {
@@ -59,17 +61,23 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",
     "@babel/preset-typescript": "^7.0.0-beta.40",
+    "@types/jest": "^24.0.15",
     "@types/node": "^12.0.12",
-    "all-contributors-cli": "^6.1.2",
+    "all-contributors-cli": "^6.7.0",
     "concat": "^1.0.3",
+    "coveralls": "^3.0.4",
     "eslint": "^5.0.1",
+    "jest": "^24.8.0",
+    "jest-stare": "^1.17.0",
     "jsdoc": "^3.5.5",
     "jsdoc-babel": "^0.5.0",
     "jsdoc-to-markdown": "^4.0.1",
     "merge-md": "^1.0.3",
     "npm-check": "^5.9.0",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0"
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   },
   "bugs": {
     "url": "https://github.com/Kibibit/cli-lit/issues"
@@ -86,5 +94,9 @@
     "generator",
     "typescript",
     "automation"
-  ]
+  ],
+  "jest-stare": {
+    "resultDir": "test-results/",
+    "coverageLink": "../coverage/index.html"
+  }
 }

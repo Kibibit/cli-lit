@@ -3,3 +3,5 @@ node_modules/
 decorators.d.ts
 decorators.js
 lib/*
+coverage/
+test-results/

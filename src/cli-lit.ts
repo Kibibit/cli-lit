@@ -1,15 +1,15 @@
 import Steps from 'cli-step';
-import program from 'commander';
+import program, { CommanderStatic } from 'commander';
 import findRoot from 'find-root';
 import fs from 'fs-extra';
-import webpack from 'webpack';
-import Handlebars from 'handlebars';
-import _ from 'lodash';
-import mkdirp from 'mkdirp';
 import path from 'path';
 import _pkginfo from 'pkginfo';
+import StringReplacePlugin from 'string-replace-webpack-plugin';
+import webpack from 'webpack';
 
+// tslint:disable-next-line:no-var-requires
 const exec = require('child_process').exec;
+// tslint:disable-next-line:no-var-requires
 const mergedirs = require('merge-dirs').default;
 
 _pkginfo(module);
@@ -33,8 +33,6 @@ if (!program.file || !program.name || !program.class) {
   process.exit(1);
 }
 
-
-
 const outputDir = path.join(process.cwd(), './' + program.name);
 const fullFilePath = path.join(process.cwd(), program.file);
 const givenFilePackageJsonPath = path.join(findRoot(fullFilePath), '/package.json');
@@ -44,45 +42,64 @@ const givenFilePackageJson = JSON.parse(fs.readFileSync(givenFilePackageJsonPath
 // console.log(__dirname);
 const cliBase = path.join(__dirname, '../seed/cli-base.ts');
 
-const config: webpack.Configuration = {
-  target: 'node',
-  mode: 'production',
-  entry: cliBase,
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      }
-    ]
-  },
-  resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
-  },
-  output: {
-    path: outputDir,
-    filename: `${ program.name }.bundle.js`
-  },
-  optimization: {
-    // we don't minimze to get function parameter names
-    minimize: false
-  }
-  // plugins: [
-  //   new webpack.NormalModuleReplacementPlugin(
-  //     new RegExp('./holder.ts'),
-  //     path.relative(process.cwd(), fullFilePath
-  //   )
-  // ]
-};
+console.log('CLI BASE: ', cliBase);
 
-webpack(config, (err, stats) => {
-  if (err || stats.hasErrors()) {
-    console.error('something went wrong with webpack');
-    console.error(err);
-    console.error(stats.toString());
-  }
-});
+fs.readFile(cliBase, 'utf-8')
+  .then((fileContent) => fs.writeFile(cliBase, fileContent.replace(
+    `import { KbPlaceholderCli as KbGivenCli } from './holder';`,
+    `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }'`
+  )))
+  .then(() => {
+    // TODO: first, replace the default cli with the user given file and class
+
+    const config: webpack.Configuration = {
+      target: 'node',
+      mode: 'production',
+      entry: cliBase,
+      module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
+          }
+        ]
+      },
+      resolve: {
+        extensions: [ '.tsx', '.ts', '.js' ]
+      },
+      output: {
+        path: outputDir,
+        filename: `${ program.name }.bundle.js`
+      },
+      optimization: {
+        // we don't minimze to get function parameter names
+        minimize: false
+      }
+      // plugins: [
+      //   new webpack.NormalModuleReplacementPlugin(
+      //     new RegExp('holder'),
+      //     (resource) => {
+      //       console.log('resource found: ', resource);
+
+      //       resource.request = resource.request;
+      //     }
+      //   )
+      // ]
+    };
+
+    return webpackPromise(config);
+  })
+  .finally(() => {
+    fs.readFile(cliBase, 'utf-8')
+      .then((fileContent) => fs.writeFile(cliBase, fileContent.replace(
+        `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }'`,
+        `import { KbPlaceholderCli as KbGivenCli } from './holder';;`
+      )))
+  })
+  .catch((err) => console.error(err));
+
+export const cliLit: CommanderStatic = program;
 
 // generateCodeFromSeed(outputDir)
 //   .then(() => generatePackageJson(outputDir, options))
@@ -235,3 +252,16 @@ webpack(config, (err, stats) => {
 //     .then((compiledTemplate) => fs.writeFileSync(outputDir + '/index.ts', compiledTemplate, 'utf8'))
 //     .then(() => generateCodeStep.success('Generated index.ts', 'white_check_mark'));
 // }
+
+async function webpackPromise(config: webpack.Configuration): Promise<webpack.Stats> {
+  return new Promise((resolve, reject) => {
+    webpack(config, (err, stats) => {
+      if (err || stats.hasErrors()) {
+        reject(err || stats.toString());
+        return;
+      }
+
+      resolve(stats);
+    });
+  });
+}

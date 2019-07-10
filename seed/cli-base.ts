@@ -3,8 +3,8 @@ import program, { CommanderStatic } from 'commander';
 import _, { assign, forEach, forIn, get, includes, isFunction, map, set } from 'lodash';
 
 import { ARGUMENT_NAMES, STRIP_COMMENTS } from './consts';
-import { Cli } from './holder';
-import { IAllCliDefinedFunctions, IGroupedDefinedFunctions, isDefinedCliFunction } from './models';
+import { KbPlaceholderCli as KbGivenCli } from './holder';;;;;;;
+import { IAllCliDefinedFunctions, IGroupedDefinedFunctions, isDefinedCliFunction, IDecoratedFunction } from './models';
 
 // create the basic program
 program
@@ -31,49 +31,50 @@ function getParamNames(func: Function): string[] {
 }
 
 function createCLICommandsFromClass(givenProgram: CommanderStatic) {
-  // get all the atomic requests members
   const allDefinedFunctions: IAllCliDefinedFunctions = {};
   const before: Function[] = [];
   const after: Function[] = [];
 
-  forIn(Cli, (propertyValue: any, propertyName: string) => {
+  // get all the atomic requests members
+  forIn(KbGivenCli, (propertyValue: any, propertyName: string) => {
     const isIgnoredObjectProperty = [ 'length', 'prototype', 'name' ].includes(propertyName);
-    const isIgnoredDecorator = get(Cli, `${ propertyName }.ignore`);
-    const isNotAFunction = !isFunction(Cli[ propertyName ]);
+    const isIgnoredDecorator = get(KbGivenCli, `${ propertyName }.ignore`);
+    const isNotAFunction = !isFunction(KbGivenCli[ propertyName ]);
 
+    // ignore everything that is not a function
     if (isIgnoredObjectProperty || isIgnoredDecorator || isNotAFunction) {
       return;
     }
 
     const funcName = propertyName;
-    const functionObject: Function = propertyValue;
+    const functionObject: Function & IDecoratedFunction = propertyValue;
 
-    if (Cli[ funcName ].beforeEach) {
+    if (functionObject.beforeEach) {
       // @ts-ignore
-      before.push(Cli[ funcName ] as any);
+      before.push(functionObject);
       return;
     }
 
-    if (Cli[ funcName ].afterEach) {
+    if (functionObject.afterEach) {
       // @ts-ignore
-      after.push(Cli[ funcName ]);
+      after.push(functionObject);
       return;
     }
 
-    const fullParams = getParamNames(Cli[ funcName ]);
+    const fullParams = getParamNames(functionObject);
     let params = fullParams;
-    if (Cli[ funcName ].hiddenParams) {
-      params = fullParams.filter((param) => !includes(Cli[ funcName ].hiddenParams, param));
+    if (functionObject.hiddenParams) {
+      params = fullParams.filter((param) => !includes(functionObject.hiddenParams, param));
     }
 
     allDefinedFunctions[ funcName ] = {
-      name: Cli[ funcName ].cliName || funcName,
+      name: functionObject.cliName || funcName,
       functionName: funcName,
       params,
       fullParams,
-      optionalParams: Cli[ funcName ].optionalParams,
-      description: Cli[ funcName ].description || '',
-      group: Cli[ funcName ].group,
+      optionalParams: functionObject.optionalParams || [],
+      description: functionObject.description || '',
+      group: functionObject.group || '',
       kib_type_kib: 'ICliDefinedFunction'
     };
   });
@@ -127,7 +128,7 @@ function createCLI(groupedFunctions: IGroupedDefinedFunctions, before, after, gi
               return inputObject[ param ];
             }))
             // @ts-ignore
-            .then((readyInputs) => Cli[ item.functionName ].apply(this, readyInputs))
+            .then((readyInputs) => KbGivenCli[ item.functionName ].apply(this, readyInputs))
             .then((output) => Promise.all(map(after, (func: Function) => func(item.functionName, output, inputObject))));
         });
     } else {
