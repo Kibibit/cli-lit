@@ -58,9 +58,9 @@ fs.readFile(cliBase, 'utf-8')
         rules: [
           {
             test: /\.tsx?$/,
-            use: 'ts-loader'
-            // include: __dirname,
-            // exclude: /node_modules/
+            use: 'ts-loader',
+            include: new RegExp(`(@kibibit\/cli-lit)|${ process.cwd() }`),
+            exclude: /node_modules/
           }
         ]
       },
