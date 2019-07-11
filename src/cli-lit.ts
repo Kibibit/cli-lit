@@ -36,8 +36,8 @@ if (!program.file || !program.name || !program.class) {
 const outputDir = path.join(process.cwd(), './' + program.name);
 const fullFilePath = path.join(process.cwd(), program.file);
 const givenFilePackageJsonPath = path.join(findRoot(fullFilePath), '/package.json');
-const cliGenPackageJson = require(path.join(__dirname, '../package.json'));
-const givenFilePackageJson = JSON.parse(fs.readFileSync(givenFilePackageJsonPath, 'utf8'));
+// const cliGenPackageJson = require(path.join(__dirname, '../package.json'));
+// const givenFilePackageJson = JSON.parse(fs.readFileSync(givenFilePackageJsonPath, 'utf8'));
 
 // console.log(__dirname);
 const cliBase = path.join(__dirname, '../seed/cli-base.ts');
@@ -47,11 +47,9 @@ console.log('CLI BASE: ', cliBase);
 fs.readFile(cliBase, 'utf-8')
   .then((fileContent) => fs.writeFile(cliBase, fileContent.replace(
     `import { KbPlaceholderCli as KbGivenCli } from './holder';`,
-    `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }'`
+    `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }';`
   )))
   .then(() => {
-    // TODO: first, replace the default cli with the user given file and class
-
     const config: webpack.Configuration = {
       target: 'node',
       mode: 'production',
@@ -93,8 +91,8 @@ fs.readFile(cliBase, 'utf-8')
   .finally(() => {
     fs.readFile(cliBase, 'utf-8')
       .then((fileContent) => fs.writeFile(cliBase, fileContent.replace(
-        `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }'`,
-        `import { KbPlaceholderCli as KbGivenCli } from './holder';;`
+        `import { ${ program.class } as KbGivenCli } from '${ fullFilePath }';`,
+        `import { KbPlaceholderCli as KbGivenCli } from './holder';`
       )))
   })
   .catch((err) => console.error(err));

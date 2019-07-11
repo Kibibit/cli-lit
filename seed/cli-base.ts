@@ -1,10 +1,10 @@
 import colors from 'colors';
-import program, { CommanderStatic } from 'commander';
+import program from 'gitlike-cli';
 import _, { assign, forEach, forIn, get, includes, isFunction, map, set } from 'lodash';
 
 import { ARGUMENT_NAMES, STRIP_COMMENTS } from './consts';
-import { KbPlaceholderCli as KbGivenCli } from './holder';;;;;;;
-import { IAllCliDefinedFunctions, IGroupedDefinedFunctions, isDefinedCliFunction, IDecoratedFunction } from './models';
+import { KbPlaceholderCli as KbGivenCli } from './holder';
+import { IAllCliDefinedFunctions, IDecoratedFunction, IGroupedDefinedFunctions, isDefinedCliFunction } from './models';
 
 // create the basic program
 program
@@ -30,7 +30,7 @@ function getParamNames(func: Function): string[] {
   return result;
 }
 
-function createCLICommandsFromClass(givenProgram: CommanderStatic) {
+function createCLICommandsFromClass(givenProgram) {
   const allDefinedFunctions: IAllCliDefinedFunctions = {};
   const before: Function[] = [];
   const after: Function[] = [];
@@ -99,7 +99,12 @@ function groupByPath(functionArray) {
   return groupedFunctions;
 }
 
-function createCLI(groupedFunctions: IGroupedDefinedFunctions, before, after, givenProgram) {
+function createCLI(
+  groupedFunctions: IGroupedDefinedFunctions,
+  before: Function[],
+  after: Function[],
+  givenProgram: any
+) {
 
   forEach(groupedFunctions, (item, key) => {
     if (isDefinedCliFunction(item)) {
@@ -110,11 +115,13 @@ function createCLI(groupedFunctions: IGroupedDefinedFunctions, before, after, gi
           return includes(item.optionalParams, param) ? `[${ param }]` : `<${ param }>`;
         }).join(' ');
 
-      program.command(`${ item.name } ${ visibleParamsString }`)
+      givenProgram.command(`${ item.name } ${ visibleParamsString }`)
         .description(colors.yellow(item.description))
-        .action(function (...inputs) {
-          const options: { [ key: string ]: any } = inputs.pop();
-          const args: any[] = inputs;
+        .option('-p, --peppers', 'Add peppers')
+        .action(function (args: { [ argName: string ]: any }, options: { [ optionName: string ]: any }) {
+          // console.log('all inputs: ', args);
+          // const options: { [ key: string ]: any } = inputs.pop();
+          // const args: any[] = inputs;
           const inputObject = {};
 
           return Promise.resolve()
@@ -123,13 +130,18 @@ function createCLI(groupedFunctions: IGroupedDefinedFunctions, before, after, gi
             // .then((fromBefore) => console.log(fromBefore))
             .then((fromBefore: any) => assign.apply(_, fromBefore))
             .then((fromBefore) => item.fullParams.map((param, index) => {
-              inputObject[ param ] = args[ index ] || fromBefore[ param ];
+              inputObject[ param ] = args[ param ] || fromBefore[ param ];
+
+              if (param === 'options') {
+                inputObject[ param ] = options;
+              }
 
               return inputObject[ param ];
             }))
             // @ts-ignore
             .then((readyInputs) => KbGivenCli[ item.functionName ].apply(this, readyInputs))
-            .then((output) => Promise.all(map(after, (func: Function) => func(item.functionName, output, inputObject))));
+            .then((output) => Promise.all(map(after, (func: Function) => func(item.functionName, output, inputObject))))
+            .catch((err) => console.error(err));
         });
     } else {
       const groupCommand = program
