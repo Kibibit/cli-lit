@@ -2,4 +2,4 @@
 
 require('manakin').global;
 
-var cliGen = require('../lib/cli-lit.js');
+var cliGen = require('../lib/cli-lit');
