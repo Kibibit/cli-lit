@@ -26,7 +26,7 @@
     "lodash": "^4.17.10",
     "manakin": "^0.5.1",
     "merge-dirs": "^0.2.1",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.0",
     "pkginfo": "^0.4.1",
     "prettyjson": "^1.2.1"
   },
